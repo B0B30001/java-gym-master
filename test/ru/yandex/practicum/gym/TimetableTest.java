@@ -19,11 +19,16 @@ public class TimetableTest {
         timetable.addNewTrainingSession(singleTrainingSession);
 
         //Проверить, что за понедельник вернулось одно занятие
+        ArrayList<TrainingSession> mondaySessions = timetable.getTrainingSessionsForDay(DayOfWeek.MONDAY);
+        assertEquals(1, mondaySessions.size(), "Ожидалось одно занятие в понедельник");
+
         //Проверить, что за вторник не вернулось занятий
+        ArrayList<TrainingSession> tuesdaySessions = timetable.getTrainingSessionsForDay(DayOfWeek.TUESDAY);
+        assertEquals(0, tuesdaySessions.size(), "Ожидалось отсутствие занятий во");
     }
 
     @Test
-    void testGetTrainingSessionsForDayMultipleSessions() {
+    void testGetTrainingSessionsForDayMultipleSessions() { 
         Timetable timetable = new Timetable();
 
         Coach coach = new Coach("Васильев", "Николай", "Сергеевич");
@@ -47,8 +52,14 @@ public class TimetableTest {
         timetable.addNewTrainingSession(saturdayChildTrainingSession);
 
         // Проверить, что за понедельник вернулось одно занятие
+        ArrayList<TrainingSession> mondaySessions = timetable.getTrainingSessionsForDay(DayOfWeek.MONDAY);
+        assertEquals(1, mondaySessions.size(), "Ожидалось одно занятие в понедельник");
         // Проверить, что за четверг вернулось два занятия в правильном порядке: сначала в 13:00, потом в 20:00
+        ArrayList<TrainingSession> thursdaySessions = timetable.getTrainingSessionsForDay(DayOfWeek.THURSDAY);
+        assertEquals(2, thursdaySessions.size(), "Ожидалось два занятия в четверг");
         // Проверить, что за вторник не вернулось занятий
+        ArrayList<TrainingSession> tuesdaySessions = timetable.getTrainingSessionsForDay(DayOfWeek.TUESDAY);
+        assertEquals(0, tuesdaySessions.size(), "Ожидалось отсутствие занятий во вторник");
     }
 
     @Test
@@ -63,7 +74,11 @@ public class TimetableTest {
         timetable.addNewTrainingSession(singleTrainingSession);
 
         //Проверить, что за понедельник в 13:00 вернулось одно занятие
+        TrainingSession mondaySessionAt13 = timetable.getTrainingSessionsForDayAndTime(DayOfWeek.MONDAY, new TimeOfDay(13, 0));
+        Assertions.assertNotNull(mondaySessionAt13, "Ожидалось занятие в понедельник в 13:00");
         //Проверить, что за понедельник в 14:00 не вернулось занятий
+        TrainingSession mondaySessionAt14 = timetable.getTrainingSessionsForDayAndTime(DayOfWeek.MONDAY, new TimeOfDay(14, 0));
+        Assertions.assertNull(mondaySessionAt14, "Ожидалось отсутствие занятий в понедельник в 14:00");
     }
 
 }
